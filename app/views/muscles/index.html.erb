@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Muscles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @muscles.each do |muscle| %>
+      <tr>
+        <td><%= muscle.name %></td>
+        <td><%= link_to 'Show', muscle %></td>
+        <td><%= link_to 'Edit', edit_muscle_path(muscle) %></td>
+        <td><%= link_to 'Destroy', muscle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Muscle', new_muscle_path %>

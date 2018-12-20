@@ -14,7 +14,6 @@ class ExercisesTest < ApplicationSystemTestCase
     visit exercises_url
     click_on "New Exercise"
 
-    fill_in "Muscles", with: @exercise.muscles
     fill_in "Name", with: @exercise.name
     click_on "Create Exercise"
 
@@ -26,7 +25,6 @@ class ExercisesTest < ApplicationSystemTestCase
     visit exercises_url
     click_on "Edit", match: :first
 
-    fill_in "Muscles", with: @exercise.muscles
     fill_in "Name", with: @exercise.name
     click_on "Update Exercise"
 
