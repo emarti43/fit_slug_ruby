@@ -61,3 +61,6 @@ gem 'rest-client'
 
 # Initializing env variables
 gem 'figaro'
+
+# used for accepting cross-domain api calls
+gem 'rack-cors', require: 'rack/cors'
