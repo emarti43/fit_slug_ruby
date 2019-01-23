@@ -64,3 +64,5 @@ gem 'figaro'
 
 # used for accepting cross-domain api calls
 gem 'rack-cors', require: 'rack/cors'
+
+gem 'bcrypt', '3.1.12'
