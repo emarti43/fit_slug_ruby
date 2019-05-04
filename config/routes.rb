@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
   resources :exercise_muscles
   resources :exercises
   resources :muscles
