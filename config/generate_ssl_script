@@ -1,4 +1,4 @@
-name=localhost.ross
+name=fs2.local
 openssl req \
   -new \
   -newkey rsa:2048 \

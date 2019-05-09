@@ -1,4 +1,4 @@
-local_tld=ross
+local_tld=local
 brew install dnsmasq
 mkdir -pv $(brew --prefix)/etc
 sudo cp -v $(brew --prefix dnsmasq)/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons

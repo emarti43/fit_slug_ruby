@@ -40,3 +40,7 @@ muscles = Muscle.create!([
   {name: "Hamstrings (biceps femoris)"}
   ])
 print "--------------created #{Muscle.count} muscles---------\n"
+users = User.create!([
+  {name: "Example User", email: "user@example.com", password: "foobar",
+   password_confirmation: "foobar"}
+  ])
