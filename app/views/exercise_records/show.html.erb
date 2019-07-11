@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @exercise_record.user_id %>
+</p>
+
+<p>
+  <strong>Exercise:</strong>
+  <%= @exercise_record.exercise_id %>
+</p>
+
+<p>
+  <strong>Num reps:</strong>
+  <%= @exercise_record.num_reps %>
+</p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @exercise_record.weight %>
+</p>
+
+<p>
+  <strong>Num sets:</strong>
+  <%= @exercise_record.num_sets %>
+</p>
+
+<%= link_to 'Edit', edit_exercise_record_path(@exercise_record) %> |
+<%= link_to 'Back', exercise_records_path %>

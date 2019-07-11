@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_01_23_211257) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "exercise_muscles", force: :cascade do |t|
     t.integer "e_id"
     t.integer "m_id"

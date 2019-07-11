@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :exercise_records
+  resources :meal_records
   namespace :api, constraints: { format: 'json' } do
     get 'sessions/new'
     resources :exercise_muscles
