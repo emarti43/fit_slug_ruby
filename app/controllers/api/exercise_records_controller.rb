@@ -6,7 +6,7 @@ module Api
     # GET /exercise_records.json
     def index
       @exercise_records = ExerciseRecord.all
-      render json: @exercise_records, status: :ok
+      render json: @exercise_records.map{ |record| {exercise_name: Exercise.find(record.exercise_id).name, exercise_record: record} }.to_json(), status: :ok
     end
 
     # GET /exercise_records/1

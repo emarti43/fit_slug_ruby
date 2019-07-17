@@ -6,7 +6,7 @@ module Api
     # GET /meal_records.json
     def index
       @meal_records = MealRecord.all
-      render json: @meal_records
+      render json: @meal_records.map{|meal_record| { num_servings: meal_record.num_servings, meal: Meal.find(meal_record.meal_id)} }.to_json(), status: :ok
     end
 
     # GET /meal_records/1
