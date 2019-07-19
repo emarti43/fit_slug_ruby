@@ -7,8 +7,7 @@ module Api
       @user = User.new(user_params)
       respond_to do |format|
         if @user.save
-          session[:user_id] = {value: user.id, expires: 1.minutes.from_now}
-          render json: {}, status: :ok
+          redirect_to controller: :sessions, action: :create
         else
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
@@ -16,20 +15,26 @@ module Api
     end
 
     def create
-      user = User.find_by(email: params[:email].downcase)
-      if user && user.authenticate(params[:password])
-        session[:user_id] = {value: user.id, expires: 1.minutes.from_now}
-        render json: {'valid password': true}, status: :ok
+      @user = User.find_by(email: params[:email].downcase, name: params[:username])
+      if @user && @user.authenticate(params[:password])
+        token = JsonWebToken.encode(user_id: @user.id)
+        exp_time = Time.now + 24.hours.to_i
+        render json: {token: token, exp: exp_time.strftime('%m-%d-%Y %H:%M'), username: @user.name}, status: :ok
       else
         render json: [], status: :bad_request, text: "invalid credentials"
       end
     end
 
     def validate
-      if !!session[:user_id]
-        render json: {'valid': true}, status: :ok
-      else
-        render json: {'valid': false}, status: :bad_request, text: "invalid cookie"
+      header  = request.headers['Authorization']
+      header = header.split(' ').last if header
+      begin
+        @decoded = JsonWebToken.decode(header)
+        @user =  User.find(@decoded[:user_id])
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { errors: e.message }, status: :unauthorized
+      rescue JWT::DecodeError => e
+        render json: { errors: e.message }, status: :unauthorized
       end
     end
 
