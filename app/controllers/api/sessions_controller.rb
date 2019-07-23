@@ -15,8 +15,8 @@ module Api
     end
 
     def create
-      @user = User.find_by(email: params[:email].downcase, name: params[:username])
-      if @user && @user.authenticate(params[:password])
+      @user = User.find_by(email: params[:user][:email].downcase, name: params[:user][:username])
+      if @user && @user.authenticate(params[:user][:password])
         token = JsonWebToken.encode(user_id: @user.id)
         exp_time = Time.now + 24.hours.to_i
         render json: {token: token, exp: exp_time.strftime('%m-%d-%Y %H:%M'), username: @user.name}, status: :ok
