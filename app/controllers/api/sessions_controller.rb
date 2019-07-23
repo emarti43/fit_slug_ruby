@@ -2,20 +2,20 @@ module Api
   class SessionsController < ApplicationController
     protect_from_forgery with: :exception
     protect_from_forgery with: :null_session
-    skip_before_action :verify_authenticity_token
-    def new_user
-      @user = User.new(user_params)
-      respond_to do |format|
-        if @user.save
-          redirect_to controller: :sessions, action: :create
-        else
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+    def signup
+      @user = User.new(signup_params)
+      if @user
+        token = JsonWebToken.encode(user_id: @user.id)
+        exp_time = Time.now + 24.hours.to_i
+        render json: {token: token, exp: exp_time.strftime('%m-%d-%Y %H:%M'), username: @user.name}, status: :ok
+      else
+        render json: [], status: :bad_request, text: "Signup went wrong, please try again."
       end
     end
 
     def create
-      @user = User.find_by(email: params[:user][:email].downcase, name: params[:user][:username])
+      login_params()
+      @user = User.find_by(name: params[:user][:username])
       if @user && @user.authenticate(params[:user][:password])
         token = JsonWebToken.encode(user_id: @user.id)
         exp_time = Time.now + 24.hours.to_i
@@ -36,11 +36,16 @@ module Api
       rescue JWT::DecodeError => e
         render json: { errors: e.message }, status: :unauthorized
       end
+      render json: { id: @user.id, username: @user.name}, status: :ok
     end
 
     private
-    def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation, :email)
+    def login_params
+      params.require(:user).permit(:username, :password)
+    end
+
+    def signup_params
+      params.require(:user).permit(:username, :email, :password, :password_confirmation)
     end
   end
 end
