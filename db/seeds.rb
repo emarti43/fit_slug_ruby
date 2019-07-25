@@ -43,15 +43,19 @@ print "--------------created #{Muscle.count} muscles---------\n"
 
 users = User.create!([
   {name: "Example User", email: "user@example.com", password: "foobar",
+   password_confirmation: "foobar"},
+   {name: "binkobanko", email: "eggthomas@gmail.com", password: "foobar",
    password_confirmation: "foobar"}
   ])
 
 exercise_records = ExerciseRecord.create!([
   {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
-  {user_id: 1, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5}
+  {user_id: 1, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5},
+  {user_id: 2, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5},
   ])
 
 meal_records = MealRecord.create!([
   {user_id: 1, meal_id: 1, num_servings: 4},
-  {user_id: 1, meal_id: 2, num_servings: 2}
+  {user_id: 1, meal_id: 2, num_servings: 2},
+  {user_id: 2, meal_id: 2, num_servings: 2}
   ])

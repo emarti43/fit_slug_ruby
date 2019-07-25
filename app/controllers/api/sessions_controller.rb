@@ -1,5 +1,6 @@
 module Api
   class SessionsController < ApplicationController
+    include ApplicationHelper
     protect_from_forgery with: :exception
     protect_from_forgery with: :null_session
     def signup
@@ -26,17 +27,12 @@ module Api
     end
 
     def validate
-      header  = request.headers['Authorization']
-      header = header.split(' ').last if header
-      begin
-        @decoded = JsonWebToken.decode(header)
-        @user =  User.find(@decoded[:user_id])
-      rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e.message }, status: :unauthorized
-      rescue JWT::DecodeError => e
-        render json: { errors: e.message }, status: :unauthorized
+      @user = authorize(request)
+      if !!@user
+        render json: {username: @user.name}, status: :ok
+      else
+        render json: {status: 'error'}, status: :bad_request
       end
-      render json: { id: @user.id, username: @user.name}, status: :ok
     end
 
     private

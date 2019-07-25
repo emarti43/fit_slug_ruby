@@ -5,7 +5,9 @@ module Api
     # GET /exercise_records
     # GET /exercise_records.json
     def index
-      @exercise_records = ExerciseRecord.all
+      @user = authorize(request)
+      render json: {}, status: :unauthorized if @user.nil?
+      @exercise_records = ExerciseRecord.all.where("user_id = #{@user.id}")
       render json: @exercise_records.map{ |record| {exercise_name: Exercise.find(record.exercise_id).name, exercise_record: record} }.to_json(), status: :ok
     end
 
