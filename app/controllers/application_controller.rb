@@ -4,18 +4,15 @@ class ApplicationController < ActionController::Base
     render html: 'the missile knows where it isn\'t'
   end
 
-  def authorize request
+  def authorize redirect=true
     header  = request.headers['Authorization']
     header = header.split(' ').last if header
     begin
       decoded = JsonWebToken.decode(header)
-      return nil if decoded.nil?
-      user =  User.find(decoded[:user_id])
-    rescue ActiveRecord::RecordNotFound => e
-      return nil
-    rescue JWT::DecodeError => e
-      return nil
+      @user =  User.find(decoded[:user_id])
+    rescue StandardError => e
+      @user = nil
     end
-    return user
+    redirect_to '/validate', status: :unauthorized and return if @user.nil? && redirect
   end
 end

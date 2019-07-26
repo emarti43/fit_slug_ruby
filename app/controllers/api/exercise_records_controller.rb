@@ -1,12 +1,11 @@
 module Api
   class ExerciseRecordsController < ApplicationController
     before_action :set_exercise_record, only: [:show, :edit, :update, :destroy]
+    before_action :authorize, only: [:index]
 
     # GET /exercise_records
     # GET /exercise_records.json
     def index
-      @user = authorize(request)
-      render json: {}, status: :unauthorized if @user.nil?
       @exercise_records = ExerciseRecord.all.where("user_id = #{@user.id}")
       render json: @exercise_records.map{ |record| {exercise_name: Exercise.find(record.exercise_id).name, exercise_record: record} }.to_json(), status: :ok
     end

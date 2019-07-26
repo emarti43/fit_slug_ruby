@@ -1,12 +1,11 @@
 module Api
   class MealRecordsController < ApplicationController
     before_action :set_meal_record, only: [:show, :edit, :update, :destroy]
+    before_action :authorize, only: [:index]
 
     # GET /meal_records
     # GET /meal_records.json
     def index
-      @user = authorize(request)
-      render json: {}, status: :unauthorized if @user.nil?
       @meal_records = MealRecord.all.where("user_id = #{@user.id}")
       render json: @meal_records.map{|meal_record| { user_id: meal_record.user_id, num_servings: meal_record.num_servings, meal: Meal.find(meal_record.meal_id)} }.to_json(), status: :ok
     end

@@ -27,7 +27,7 @@ module Api
     end
 
     def validate
-      @user = authorize(request)
+      authorize false
       if !!@user
         render json: {username: @user.name}, status: :ok
       else
