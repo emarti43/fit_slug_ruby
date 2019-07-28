@@ -22,4 +22,45 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       end
     end
   end
+  describe 'POST #exercise_records' do
+    context 'with valid credentials' do
+      user_id = 1
+      exercise_id = 1
+      it 'posts a meal record to corresponding user' do
+        post '/api/exercise_records', params: {exercise_record: {user_id: user_id, exerise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("201")
+      end
+    end
+    context 'with invalid credentials' do
+      user_id = -1
+      exercise_id = 1
+      it 'does not post when request has no auth' do
+        post '/api/exercise_records', params: {exercise_record: {user_id: user_id, exerise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}
+        expect(response.code).to eq("401")
+      end
+      it 'does not post when request has invalid id' do
+        post '/api/exercise_records', params: {exercise_record: {user_id: user_id, exerise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("401")
+      end
+    end
+  end
+  describe 'DELETE #exericse_records/exericse_record.id' do
+
+    exercise_record_id = 1
+    context 'with valid credentials' do
+      it 'deletes record successfullly' do
+        user_id = 1
+        delete '/api/exercise_records/' + exercise_record_id.to_s, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("200")
+      end
+    end
+    context 'with invalid credentials' do
+      it 'returns unauthorized with different user_ids' do
+        user_id = 2
+        delete '/api/exercise_records/' + exercise_record_id.to_s, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("401")
+      end
+    end
+  end
+
 end

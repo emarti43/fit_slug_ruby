@@ -1,7 +1,7 @@
 module Api
   class ExerciseRecordsController < ApplicationController
     before_action :set_exercise_record, only: [:show, :edit, :update, :destroy]
-    before_action :authorize, only: [:index]
+    before_action :authorize, only: [:index, :create, :destroy]
 
     # GET /exercise_records
     # GET /exercise_records.json
@@ -25,18 +25,12 @@ module Api
     end
 
     # POST /exercise_records
-    # POST /exercise_records.json
     def create
       @exercise_record = ExerciseRecord.new(exercise_record_params)
-
-      respond_to do |format|
-        if @exercise_record.save
-          format.html { redirect_to @exercise_record, notice: 'Exercise record was successfully created.' }
-          format.json { render :show, status: :created, location: @exercise_record }
-        else
-          format.html { render :new }
-          format.json { render json: @exercise_record.errors, status: :unprocessable_entity }
-        end
+      if @exercise_record.save
+        render json: {messsage: 'created successfully'}, status: :created
+      else
+        render json: @exercise_record.errors, status: :unprocessable_entity
       end
     end
 
@@ -54,14 +48,14 @@ module Api
       end
     end
 
-    # DELETE /exercise_records/1
-    # DELETE /exercise_records/1.json
+    # DELETE /exercise_records/exercise_record.id
     def destroy
-      @exercise_record.destroy
-      respond_to do |format|
-        format.html { redirect_to exercise_records_url, notice: 'Exercise record was successfully destroyed.' }
-        format.json { head :no_content }
+      if @user.id != @exercise_record.user_id
+        puts "#{@user.id}, #{@exercise_record.user_id}"
+        render json: {message: 'invalid credentials'}, status: :unauthorized and return
       end
+      @exercise_record.destroy
+      render json: {}, status: :ok
     end
 
     private
