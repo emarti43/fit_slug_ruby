@@ -9,5 +9,14 @@ RSpec.describe Api::SessionsController, type: :request do
         expect(response).to have_http_status(:bad_request)
       end
     end
+    context 'valid token'
+      it 'returns ok if token has valid id' do
+        get '/api/validate', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: 1)}
+        expect(response.code).to eq("200")
+      end
+      it 'returns error if token has valid id' do
+        get '/api/validate', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: -1)}
+        expect(response.code).to eq("400")
+      end
   end
 end
