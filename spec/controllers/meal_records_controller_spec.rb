@@ -32,20 +32,45 @@ RSpec.describe Api::MealRecordsController, type: :request do
       end
     end
     context 'with invalid credentials' do
-      user_id = -1
+      user_id = 3
       meal_id = 1
+      params = {meal_record: {user_id: user_id, meal_id: meal_id, num_servings: 2 }}
+
       it 'does not post when request has no auth' do
-        post '/api/meal_records', params: {meal_record: {user_id: user_id, meal_id: meal_id, num_servings: 2 }}
+        post '/api/meal_records', params: params
         expect(response.code).to eq("401")
       end
       it 'does not post when request has invalid id' do
-        post '/api/meal_records', params: {meal_record: {user_id: user_id, meal_id: meal_id, num_servings: 2 }}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        post '/api/meal_records', params: params, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("401")
       end
     end
   end
-  describe 'DELETE #exericse_records/exericse_record.id' do
 
+  describe 'PUT #meal_records/:id' do
+    context 'with valid credentials' do
+      meal_record_id = 1
+      user_id = 1
+      it 'updates meal_record that belongs to user' do
+        put '/api/meal_records/' + meal_record_id.to_s, params: { meal_record: {num_servings: 6}}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("200")
+      end
+      it 'should not update with invalid input' do
+        put '/api/meal_records/' + meal_record_id.to_s, params: {unprocessablekey: 'key'}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("422")
+      end
+    end
+    context 'with invalid credentials' do
+      meal_record_id = 3
+      user_id = 1
+      it 'should not update when record does not belong to user' do
+        put '/api/meal_records/' + meal_record_id.to_s, params: {meal_record: {num_servings: 6}}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("401")
+      end
+    end
+  end
+
+  describe 'DELETE #meal_records/:id' do
     meal_record_id = 1
     context 'with valid credentials' do
       it 'deletes record successfullly' do

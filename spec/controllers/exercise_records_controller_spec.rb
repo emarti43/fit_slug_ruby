@@ -44,8 +44,31 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       end
     end
   end
-  describe 'DELETE #exericse_records/exericse_record.id' do
 
+  describe 'PUT #exercise_records/:id' do
+    context 'with valid credentials' do
+      exercise_record_id = 1
+      user_id = 1
+      it 'updates exercise record that belongs to user' do
+        put '/api/exercise_records/' + exercise_record_id.to_s, params: { exercise_record: {num_reps: 6}}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("200")
+      end
+      it 'should not update with invalid input' do
+        put '/api/exercise_records/' + exercise_record_id.to_s, params: {unprocessablekey: 'key'}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("422")
+      end
+    end
+    context 'with invalid credentials' do
+      exercise_record_id = 3
+      user_id = 1
+      it 'should not update when record does not belong to user' do
+        put '/api/exercise_records/' + exercise_record_id.to_s, params: {exercise_record: {num_reps: 6}}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        expect(response.code).to eq("401")
+      end
+    end
+  end
+
+  describe 'DELETE #exericse_records/exericse_record.id' do
     exercise_record_id = 1
     context 'with valid credentials' do
       it 'deletes record successfullly' do

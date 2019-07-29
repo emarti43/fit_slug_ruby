@@ -1,7 +1,7 @@
 module Api
   class MealRecordsController < ApplicationController
     before_action :set_meal_record, only: [:show, :edit, :update, :destroy]
-    before_action :authorize, only: [:index, :create, :destroy]
+    before_action :authorize, only: [:index, :create, :destroy, :update]
 
     # GET /meal_records
     # GET /meal_records.json
@@ -28,31 +28,28 @@ module Api
     def create
       @meal_record = MealRecord.new(meal_record_params)
       if @meal_record.save
-        render json: {messsage: 'created successfully'}, status: :created
+        render json: { messsage: 'created successfully' }, status: :created
       else
         render json: @meal_record.errors, status: :unprocessable_entity
       end
     end
 
-    # PATCH/PUT /meal_records/1
-    # PATCH/PUT /meal_records/1.json
+    # PUT /meal_records/1
     def update
-      respond_to do |format|
-        if @meal_record.update(meal_record_params)
-          format.html { redirect_to @meal_record, notice: 'Meal record was successfully updated.' }
-          format.json { render :show, status: :ok, location: @meal_record }
-        else
-          format.html { render :edit }
-          format.json { render json: @meal_record.errors, status: :unprocessable_entity }
-        end
+      if @user.id != @meal_record.user_id
+        render json: { message: 'invalid credentials' }, status: :unauthorized and return
+      end
+      if @meal_record.update(meal_record_params)
+        render json: { message: 'record deleted'}, status: :ok
+      else
+        render json: {}, status: :unprocessable_entity
       end
     end
 
     # DELETE /meal_records/meal_record.id
     def destroy
       if @user.id != @meal_record.user_id
-        puts "#{@user.id}, #{@meal_record.user_id}"
-        render json: {message: 'invalid credentials'}, status: :unauthorized and return
+        render json: { message: 'invalid credentials' }, status: :unauthorized and return
       end
       @meal_record.destroy
       render json: {}, status: :ok

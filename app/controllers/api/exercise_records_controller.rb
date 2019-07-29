@@ -1,7 +1,7 @@
 module Api
   class ExerciseRecordsController < ApplicationController
     before_action :set_exercise_record, only: [:show, :edit, :update, :destroy]
-    before_action :authorize, only: [:index, :create, :destroy]
+    before_action :authorize, only: [:index, :create, :destroy, :update]
 
     # GET /exercise_records
     # GET /exercise_records.json
@@ -35,23 +35,20 @@ module Api
     end
 
     # PATCH/PUT /exercise_records/1
-    # PATCH/PUT /exercise_records/1.json
     def update
-      respond_to do |format|
-        if @exercise_record.update(exercise_record_params)
-          format.html { redirect_to @exercise_record, notice: 'Exercise record was successfully updated.' }
-          format.json { render :show, status: :ok, location: @exercise_record }
-        else
-          format.html { render :edit }
-          format.json { render json: @exercise_record.errors, status: :unprocessable_entity }
-        end
+      if @user.id != @exercise_record.user_id
+        render json: { message: 'invalid credentials' }, status: :unauthorized and return
+      end
+      if @exercise_record.update(exercise_record_params)
+        render json: {message: 'record deleted'}, status: :ok
+      else
+        render json: {}, status: :unprocessable_entity
       end
     end
 
     # DELETE /exercise_records/exercise_record.id
     def destroy
       if @user.id != @exercise_record.user_id
-        puts "#{@user.id}, #{@exercise_record.user_id}"
         render json: {message: 'invalid credentials'}, status: :unauthorized and return
       end
       @exercise_record.destroy

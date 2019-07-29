@@ -2,7 +2,6 @@ module Api
   class SessionsController < ApplicationController
     include ApplicationHelper
     protect_from_forgery with: :exception
-    protect_from_forgery with: :null_session
     def signup
       @user = User.new(signup_params)
       if @user
