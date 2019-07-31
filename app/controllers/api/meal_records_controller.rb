@@ -27,6 +27,7 @@ module Api
     # POST /meal_records
     def create
       @meal_record = MealRecord.new(meal_record_params)
+      @meal_record.user_id = @user.id
       if @meal_record.save
         render json: { messsage: 'created successfully' }, status: :created
       else

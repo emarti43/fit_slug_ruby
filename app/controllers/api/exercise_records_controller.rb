@@ -27,6 +27,7 @@ module Api
     # POST /exercise_records
     def create
       @exercise_record = ExerciseRecord.new(exercise_record_params)
+      @exercise_record.user_id = @user.id
       if @exercise_record.save
         render json: {messsage: 'created successfully'}, status: :created
       else

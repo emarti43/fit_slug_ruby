@@ -22,6 +22,7 @@ RSpec.describe Api::MealRecordsController, type: :request do
       end
     end
   end
+
   describe 'POST #meal_records' do
     context 'with valid credentials' do
       user_id = 1
