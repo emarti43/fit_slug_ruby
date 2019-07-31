@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 meals = Meal.create!([
   {
-    name: "Chicken Tikki Masala", serving_size: "2 cups", kcal: 707,
+    name: "Chicken Tikka Masala", serving_size: "2 cups", kcal: 707,
     total_fat: 43, sat_fat: 24, polyun_fat: 0, monoun_fat: 0, cholesterol: 333,
     sodium: 4144, potassium: 1496, total_carb: 19, fiber: 4, sugar: 11,
     protein: 66, vitamin_a: 64, calcium: 0, vitamin_d: 0, vitamin_c: 26,

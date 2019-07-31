@@ -1,8 +1,8 @@
 class CreateExerciseMuscles < ActiveRecord::Migration[5.2]
   def change
     create_table :exercise_muscles do |t|
-      t.integer :e_id
-      t.integer :m_id
+      t.belongs_to :exercise, index: true
+      t.belongs_to :muscle, index: true
 
       t.timestamps
     end

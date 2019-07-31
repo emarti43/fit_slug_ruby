@@ -1,8 +1,8 @@
 class CreateMealRecords < ActiveRecord::Migration[5.2]
   def change
     create_table :meal_records do |t|
-      t.integer :user_id
-      t.integer :meal_id
+      t.belongs_to :user, index: true
+      t.belongs_to :meal
       t.integer :num_servings
 
       t.timestamps
