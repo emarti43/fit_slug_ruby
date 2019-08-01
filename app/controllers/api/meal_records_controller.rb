@@ -11,20 +11,6 @@ module Api
       render json: @meal_records.map{|meal_record| { user_id: meal_record.user_id, num_servings: meal_record.num_servings, meal: Meal.find(meal_record.meal_id)} }.to_json(), status: :ok
     end
 
-    # GET /meal_records/1
-    # GET /meal_records/1.json
-    def show
-    end
-
-    # GET /meal_records/new
-    def new
-      @meal_record = MealRecord.new
-    end
-
-    # GET /meal_records/1/edit
-    def edit
-    end
-
     # POST /meal_records
     def create
       @meal_record = @user.meal_records.new(meal_record_params)

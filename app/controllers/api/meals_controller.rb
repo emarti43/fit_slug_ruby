@@ -1,6 +1,7 @@
 module Api
   class MealsController < ApplicationController
     before_action :set_meal, only: [:show, :edit, :update, :destroy]
+    before_action :authorize, only: [:create, :update, :destroy]
 
     # GET /meals.json
     def index
@@ -8,42 +9,22 @@ module Api
       render json: @meals, status: :ok
     end
 
-    # GET /meals/1
-    # GET /meals/1.json
-    def show
-    end
-
-    # GET /meals/new
-    def new
-      @meal = Meal.new
-      render  json: @meal, status: :ok
-    end
-
-    # GET /meals/1/edit
-    def edit
-    end
-
     # POST /meals.json
     def create
       @meal = Meal.new(meal_params)
-
-      respond_to do |format|
-        if @meal.save
-          format.json { render :show, status: :created, location: @meal }
-        else
-          format.json { render json: @meal.errors, status: :unprocessable_entity }
-        end
+      if @meal.save
+        render json: {message: "created meal"}, status: :created and return
+      else
+        render json: @exercise.errors, status: :unprocessable_entity and return
       end
     end
 
     # PATCH/PUT /meals/1.json
     def update
-      respond_to do |format|
-        if @meal.update(meal_params)
-          format.json { render :show, status: :ok, location: @meal }
-        else
-          format.json { render json: @meal.errors, status: :unprocessable_entity }
-        end
+      if @meal.update(meal_params)
+        render json: {}, status: :ok and return
+      else
+        render json: @meal.errors, status: :unprocessable_entity
       end
     end
 
@@ -51,9 +32,7 @@ module Api
     # DELETE /meals/1.json
     def destroy
       @meal.destroy
-      respond_to do |format|
-        format.json { head :no_content }
-      end
+      render json {}, status: :ok
     end
 
     private

@@ -9,20 +9,6 @@ module Api
       render json: @exercises, status: :ok
     end
 
-    # GET /exercises/1
-    def show
-    end
-
-    # GET /exercises/new
-    def new
-      @exercise = Exercise.new
-      render json: @exercise, status: :ok
-    end
-
-    # GET /exercises/1/edit
-    def edit
-    end
-
     # POST /exercises
     # POST /exercises.json
     def create
@@ -42,12 +28,10 @@ module Api
 
     # PATCH/PUT /exercises/1
     def update
-      respond_to do |format|
-        if @exercise.update(exercise_params)
-          format.json { render :show, status: :ok, location: @exercise }
-        else
-          format.json { render json: @exercise.errors, status: :unprocessable_entity }
-        end
+      if @exercise.update(exercise_params)
+        render json: {}, status: :ok, location: @exercise
+      else
+        render json: @exercise.errors, status: :unprocessable_entity
       end
     end
 

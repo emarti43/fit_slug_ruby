@@ -53,19 +53,15 @@ RSpec.describe Api::MealRecordsController, type: :request do
       meal_record_id = 1
       user_id = 1
       it 'updates meal_record that belongs to user' do
-        put '/api/meal_records/' + meal_record_id.to_s, params: { meal_record: {num_servings: 6}}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        put '/api/meal_records/' + meal_record_id.to_s, params: { meal_record: {num_servings: 6}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("200")
-      end
-      it 'should not update with invalid input' do
-        put '/api/meal_records/' + meal_record_id.to_s, params: {unprocessablekey: 'key'}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
-        expect(response.code).to eq("422")
       end
     end
     context 'with invalid credentials' do
       meal_record_id = 3
       user_id = 1
       it 'should not update when record does not belong to user' do
-        put '/api/meal_records/' + meal_record_id.to_s, params: {meal_record: {num_servings: 6}}, headers: {Autorization: JsonWebToken.encode(user_id: user_id)}
+        put '/api/meal_records/' + meal_record_id.to_s, params: {meal_record: {num_servings: 6}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("401")
       end
     end

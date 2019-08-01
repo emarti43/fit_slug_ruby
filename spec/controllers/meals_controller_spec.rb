@@ -21,4 +21,20 @@ RSpec.describe Api::MealsController, type: :request do
       end
     end
   end
+  describe 'POST #create' do
+    context 'with credentials' do
+      it 'should save record with muscles' do
+        post '/api/meals',
+          params: {meal: {
+            name: "Spam Fried Rice",
+            kcal: 300,
+            total_fat: 10,
+            total_carb: 34,
+            protein: 15
+            }},
+          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+        expect(response.code).to eq("201")
+      end
+    end
+  end
 end

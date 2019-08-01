@@ -10,20 +10,6 @@ module Api
       render json: @exercise_records.map{ |record| {exercise_name: Exercise.find(record.exercise_id).name, exercise_record: record} }.to_json(), status: :ok
     end
 
-    # GET /exercise_records/1
-    # GET /exercise_records/1.json
-    def show
-    end
-
-    # GET /exercise_records/new
-    def new
-      @exercise_record = ExerciseRecord.new
-    end
-
-    # GET /exercise_records/1/edit
-    def edit
-    end
-
     # POST /exercise_records
     def create
       @exercise_record = @user.exercise_records.new(exercise_record_params)
