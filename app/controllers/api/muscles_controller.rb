@@ -1,6 +1,7 @@
 module Api
   class MusclesController < ApplicationController
     before_action :set_muscle, only: [:show, :edit, :update, :destroy]
+    before_action :authorize, only: [:update, :create, :destroy]
 
     # GET /muscles
     # GET /muscles.json

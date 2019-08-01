@@ -7,6 +7,7 @@ module Api
     # GET /meal_records.json
     def index
       @meal_records = MealRecord.all.where("user_id = #{@user.id}")
+      @meal_records = @user.meal_records
       render json: @meal_records.map{|meal_record| { user_id: meal_record.user_id, num_servings: meal_record.num_servings, meal: Meal.find(meal_record.meal_id)} }.to_json(), status: :ok
     end
 
@@ -26,8 +27,7 @@ module Api
 
     # POST /meal_records
     def create
-      @meal_record = MealRecord.new(meal_record_params)
-      @meal_record.user_id = @user.id
+      @meal_record = @user.meal_records.new(meal_record_params)
       if @meal_record.save
         render json: { messsage: 'created successfully' }, status: :created
       else
@@ -64,7 +64,7 @@ module Api
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def meal_record_params
-        params.require(:meal_record).permit(:user_id, :meal_id, :num_servings)
+        params.require(:meal_record).permit(:meal_id, :num_servings)
       end
   end
 end

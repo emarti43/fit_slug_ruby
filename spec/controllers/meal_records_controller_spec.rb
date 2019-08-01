@@ -28,14 +28,14 @@ RSpec.describe Api::MealRecordsController, type: :request do
       user_id = 1
       meal_id = 1
       it 'posts a meal record to corresponding user' do
-        post '/api/meal_records', params: {meal_record: {user_id: user_id, meal_id: meal_id, num_servings: 2 }}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        post '/api/meal_records', params: {meal_record: { meal_id: meal_id, num_servings: 2 }}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("201")
       end
     end
     context 'with invalid credentials' do
       user_id = 3
       meal_id = 1
-      params = {meal_record: {user_id: user_id, meal_id: meal_id, num_servings: 2 }}
+      params = {meal_record: { meal_id: meal_id, num_servings: 2 }}
 
       it 'does not post when request has no auth' do
         post '/api/meal_records', params: params

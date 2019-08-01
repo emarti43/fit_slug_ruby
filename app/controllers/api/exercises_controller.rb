@@ -1,16 +1,15 @@
 module Api
   class ExercisesController < ApplicationController
     before_action :set_exercise, only: [:show, :edit, :update, :destroy]
+    before_action :authorize, only: [:create, :update, :destroy]
 
     # GET /exercises
-    # GET /exercises.json
     def index
       @exercises = Exercise.all
       render json: @exercises, status: :ok
     end
 
     # GET /exercises/1
-    # GET /exercises/1.json
     def show
     end
 
@@ -28,18 +27,20 @@ module Api
     # POST /exercises.json
     def create
       @exercise = Exercise.new(exercise_params)
-
-      respond_to do |format|
-        if @exercise.save
-          format.json { render :show, status: :created, location: @exercise }
-        else
-          format.json { render json: @exercise.errors, status: :unprocessable_entity }
+      if @exercise.save
+        params[:exercise][:muscles].each do |muscle_id|
+          @exercise_muscle = @exercise.exercise_muscles.new(m_id: muscle_id)
+          if !@exercise_muscle.save
+            render json: @exercise_muscle.errors, status: :unprocessable_entity and return
+          end
         end
+        render json: {message: "created exercise"}, status: :created and return
+      else
+        render json: @exercise.errors, status: :unprocessable_entity and return
       end
     end
 
     # PATCH/PUT /exercises/1
-    # PATCH/PUT /exercises/1.json
     def update
       respond_to do |format|
         if @exercise.update(exercise_params)
@@ -51,12 +52,9 @@ module Api
     end
 
     # DELETE /exercises/1
-    # DELETE /exercises/1.json
     def destroy
       @exercise.destroy
-      respond_to do |format|
-        format.json { head :no_content }
-      end
+      render json: {}, status: :ok
     end
 
     private
@@ -67,7 +65,7 @@ module Api
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exercise_params
-      params.require(:exercise).permit(:name)
+      params.require(:exercise).permit(:name, :muscles)
     end
   end
 end

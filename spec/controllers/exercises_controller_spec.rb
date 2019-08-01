@@ -16,8 +16,20 @@ RSpec.describe Api::ExercisesController, type: :request do
       end
       it 'returns ok with invalid' do
         user_id = 4 #there's only 2 user records
-        get '/api/exercises', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
+        get '/api/exercises',
+          params: nil,
+          headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("200")
+      end
+    end
+  end
+  describe 'POST #create' do
+    context 'with credentials' do
+      it 'should save record with muscles' do
+        post '/api/exercises',
+          params: {exercise: {name: "Lateral Raise", muscles: [3]}},
+          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+        expect(response.code).to eq("201")
       end
     end
   end

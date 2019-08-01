@@ -6,7 +6,7 @@ module Api
     # GET /exercise_records
     # GET /exercise_records.json
     def index
-      @exercise_records = ExerciseRecord.all.where("user_id = #{@user.id}")
+      @exercise_records = @user.exercise_records
       render json: @exercise_records.map{ |record| {exercise_name: Exercise.find(record.exercise_id).name, exercise_record: record} }.to_json(), status: :ok
     end
 
@@ -26,11 +26,11 @@ module Api
 
     # POST /exercise_records
     def create
-      @exercise_record = ExerciseRecord.new(exercise_record_params)
-      @exercise_record.user_id = @user.id
+      @exercise_record = @user.exercise_records.new(exercise_record_params)
       if @exercise_record.save
         render json: {messsage: 'created successfully'}, status: :created
       else
+        puts @exercise_record.errors.messages
         render json: @exercise_record.errors, status: :unprocessable_entity
       end
     end
@@ -64,7 +64,7 @@ module Api
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def exercise_record_params
-        params.require(:exercise_record).permit(:user_id, :exercise_id, :num_reps, :weight, :num_sets)
+        params.require(:exercise_record).permit(:exercise_id, :num_reps, :weight, :num_sets)
       end
   end
 end

@@ -27,7 +27,7 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       user_id = 1
       exercise_id = 1
       it 'posts a meal record to corresponding user' do
-        post '/api/exercise_records', params: {exercise_record: {user_id: user_id, exerise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        post '/api/exercise_records', params: {exercise_record: {exercise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("201")
       end
     end
@@ -35,11 +35,11 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       user_id = -1
       exercise_id = 1
       it 'does not post when request has no auth' do
-        post '/api/exercise_records', params: {exercise_record: {user_id: user_id, exerise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}
+        post '/api/exercise_records', params: {exercise_record: { exercise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}
         expect(response.code).to eq("401")
       end
       it 'does not post when request has invalid id' do
-        post '/api/exercise_records', params: {exercise_record: {user_id: user_id, exerise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        post '/api/exercise_records', params: {exercise_record: { exercise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("401")
       end
     end
