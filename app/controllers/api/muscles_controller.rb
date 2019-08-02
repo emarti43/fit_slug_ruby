@@ -21,12 +21,10 @@ module Api
 
     # PATCH/PUT /muscles/1
     def update
-      respond_to do |format|
-        if @muscle.update(muscle_params)
-          format.json { render :show, status: :ok, location: @muscle }
-        else
-          format.json { render json: @muscle.errors, status: :unprocessable_entity }
-        end
+      if @muscle.update(muscle_params)
+        render json: {}, status: :ok, location: @muscle
+      else
+        render json: @muscle.errors, status: :unprocessable_entity
       end
     end
 

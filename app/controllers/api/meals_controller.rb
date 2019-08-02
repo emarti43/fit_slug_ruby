@@ -3,13 +3,18 @@ module Api
     before_action :set_meal, only: [:show, :edit, :update, :destroy]
     before_action :authorize, only: [:create, :update, :destroy]
 
-    # GET /meals.json
+    # GET /meals
     def index
       @meals = Meal.all
       render json: @meals, status: :ok
     end
 
-    # POST /meals.json
+    # GET /meals/fields
+    def fields
+      render json: Meal.column_names - ["id"], status: :ok
+    end
+
+    # POST /meals
     def create
       @meal = Meal.new(meal_params)
       if @meal.save
@@ -19,7 +24,7 @@ module Api
       end
     end
 
-    # PATCH/PUT /meals/1.json
+    # PATCH/PUT /meals/1
     def update
       if @meal.update(meal_params)
         render json: {}, status: :ok and return
@@ -29,7 +34,6 @@ module Api
     end
 
     # DELETE /meals/1
-    # DELETE /meals/1.json
     def destroy
       @meal.destroy
       render json {}, status: :ok
