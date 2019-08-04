@@ -6,9 +6,16 @@ module Api
     # GET /meal_records
     # GET /meal_records.json
     def index
-      @meal_records = MealRecord.all.where("user_id = #{@user.id}")
-      @meal_records = @user.meal_records
-      render json: @meal_records.map{|meal_record| { user_id: meal_record.user_id, num_servings: meal_record.num_servings, meal: Meal.find(meal_record.meal_id)} }.to_json(), status: :ok
+      # @meal_records = @user.meal_records
+      meal_records = @user.meal_records
+      mapping = meal_records.map do |meal_record|
+        {
+          user_id: meal_record.user_id,
+          num_servings: meal_record.num_servings,
+          meal: meal_record.meal
+        }
+      end
+      render json: mapping, status: :ok
     end
 
     # POST /meal_records
