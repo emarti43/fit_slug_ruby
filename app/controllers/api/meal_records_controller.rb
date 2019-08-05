@@ -10,6 +10,7 @@ module Api
       meal_records = @user.meal_records
       mapping = meal_records.map do |meal_record|
         {
+          id: meal_record.id,
           user_id: meal_record.user_id,
           num_servings: meal_record.num_servings,
           meal: meal_record.meal
@@ -34,7 +35,7 @@ module Api
         render json: { message: 'invalid credentials' }, status: :unauthorized and return
       end
       if @meal_record.update(meal_record_params)
-        render json: { message: 'record deleted'}, status: :ok
+        render json: { message: 'record updated'}, status: :ok
       else
         render json: {}, status: :unprocessable_entity
       end
