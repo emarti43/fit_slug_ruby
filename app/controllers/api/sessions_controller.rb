@@ -6,18 +6,18 @@ module Api
 
     def signup
       @user = User.new(signup_params)
-      if @user
+      if @user.save
         token = JsonWebToken.encode(user_id: @user.id)
         exp_time = Time.now + 24.hours.to_i
-        render json: {token: token, exp: exp_time.strftime('%m-%d-%Y %H:%M'), username: @user.name}, status: :ok
+        render json: {token: token, exp: exp_time.strftime('%m-%d-%Y %H:%M'), username: @user.name}, status: :created
       else
-        render json: [], status: :bad_request, text: "Signup went wrong, please try again."
+        render json: @user.errors, status: :bad_request, text: "Signup went wrong, please try again."
       end
     end
 
     def create
       login_params()
-      @user = User.find_by(name: params[:user][:username])
+      @user = User.find_by(name: params[:user][:name])
       if @user && @user.authenticate(params[:user][:password])
         token = JsonWebToken.encode(user_id: @user.id)
         exp_time = Time.now + 24.hours.to_i
@@ -38,11 +38,12 @@ module Api
 
     private
     def login_params
-      params.require(:user).permit(:username, :password)
+      params.require(:user).permit(:name, :password)
     end
 
     def signup_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+
     end
   end
 end

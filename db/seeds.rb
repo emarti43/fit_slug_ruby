@@ -24,18 +24,28 @@ meals = Meal.create!([
 print "--------------created #{Meal.count} meals---------\n"
 
 exercises = Exercise.create!([
-  {name: "Bicep Curl"}, {name: "Pull Ups"}, {name: "Bench Press"},
-  {name: "Squats"}, {name: "Barbell Rows"}
+  {name: "Bicep Curl"},
+  {name: "Pull Ups"},
+  {name: "Bench Press"},
+  {name: "Squats"},
+  {name: "Barbell Rows"}
   ])
 print "--------------created #{Exercise.count} exercises---------\n"
 
 muscles = Muscle.create!([
-  {name: "Neck"}, {name: "Traps (trapezius)"}, {name: "Shoulders (deltoids)"},
-  {name: "Chest (pectoralis)"}, {name: "Biceps (biceps brachii)"},
-  {name: "Forearm (brachioradialis)"}, {name: "Abs (rectus abdominis)"},
-  {name: "Quads (quadriceps)"}, {name: "Calves (gastrocnemius)"},
-  {name: "Triceps (tricpes brachii)"}, {name: "Lats (latissimus dorsi)"},
-  {name: "Middle Back (rhomboids)"}, {name: "Lower Back"},
+  {name: "Neck"},
+  {name: "Traps (trapezius)"},
+  {name: "Shoulders (deltoids)"},
+  {name: "Chest (pectoralis)"},
+  {name: "Biceps (biceps brachii)"},
+  {name: "Forearm (brachioradialis)"},
+  {name: "Abs (rectus abdominis)"},
+  {name: "Quads (quadriceps)"},
+  {name: "Calves (gastrocnemius)"},
+  {name: "Triceps (tricpes brachii)"},
+  {name: "Lats (latissimus dorsi)"},
+  {name: "Middle Back (rhomboids)"},
+  {name: "Lower Back"},
   {name: "Glutes (gluteus maximus and medius)"},
   {name: "Hamstrings (biceps femoris)"}
   ])
@@ -58,4 +68,17 @@ meal_records = MealRecord.create!([
   {user_id: 1, meal_id: 1, num_servings: 4},
   {user_id: 1, meal_id: 2, num_servings: 2},
   {user_id: 2, meal_id: 2, num_servings: 2}
+  ])
+exercise_muscles = ExerciseMuscle.create!([
+  {e_id: 1, m_id: 5},
+  {e_id: 2, m_id: 5},
+  {e_id: 2, m_id: 12},
+  {e_id: 2, m_id: 2},
+  {e_id: 3, m_id: 3},
+  {e_id: 3, m_id: 4},
+  {e_id: 4, m_id: 9},
+  {e_id: 4, m_id: 8},
+  {e_id: 5, m_id: 12},
+  {e_id: 5, m_id: 5}
+
   ])

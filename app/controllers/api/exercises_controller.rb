@@ -6,11 +6,11 @@ module Api
     # GET /exercises
     def index
       @exercises = Exercise.all
-      render json: @exercises, status: :ok
+      list = @exercises.map{ |record| {exercise: record, muscles: record.exercise_muscles.map{ |exercise_muscle| exercise_muscle.muscle.name } } }
+      render json: list, status: :ok
     end
 
     # POST /exercises
-    # POST /exercises.json
     def create
       @exercise = Exercise.new(exercise_params)
       if @exercise.save

@@ -7,6 +7,8 @@ RSpec.describe Api::ExercisesController, type: :request do
       it 'returns ok for valid user id' do
         get '/api/exercises', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
         expect(response.code).to eq("200")
+        workout_muscles = JSON.parse(response.body).all? {|entry| entry['muscles'].nil? == false && !entry['muscles'].empty?}
+        expect(workout_muscles).to be_truthy
       end
     end
     context 'invalid credentials' do
@@ -26,8 +28,15 @@ RSpec.describe Api::ExercisesController, type: :request do
   describe 'POST #create' do
     context 'with credentials' do
       it 'should save record with muscles' do
+        payload = {
+          exercise:
+          {
+            name: "Lateral Raise",
+            muscles: [3, 2, 5]
+          }
+        }
         post '/api/exercises',
-          params: {exercise: {name: "Lateral Raise", muscles: [3]}},
+          params: payload,
           headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
         expect(response.code).to eq("201")
       end
