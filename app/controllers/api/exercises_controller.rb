@@ -29,7 +29,7 @@ module Api
     # PATCH/PUT /exercises/1
     def update
       if @exercise.update(exercise_params)
-        render json: {}, status: :ok, location: @exercise
+        render json: {}, status: :ok
       else
         render json: @exercise.errors, status: :unprocessable_entity
       end

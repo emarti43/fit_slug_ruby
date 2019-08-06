@@ -42,4 +42,21 @@ RSpec.describe Api::ExercisesController, type: :request do
       end
     end
   end
+  describe 'POST #update' do
+    context 'with credentials' do
+      it 'should update record with muscles' do
+        payload = {
+          exercise:
+          {
+            name: "Lateral Raise",
+            muscles: [3, 2, 5]
+          }
+        }
+        put '/api/exercises/' + 1.to_s,
+          params: payload,
+          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+        expect(response.code).to eq("200")
+      end
+    end
+  end
 end
