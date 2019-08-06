@@ -7,7 +7,7 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       it 'returns records that belong to user' do
         get '/api/exercise_records.json', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
         records = JSON.parse(response.body)
-        result = records.all? { |record| record['exercise_record']['user_id'] == user_id } && !records.empty? 
+        result = records.all? { |record|  !record.empty?}
         expect(result).to be true
       end
     end

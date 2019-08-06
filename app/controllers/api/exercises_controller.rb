@@ -6,7 +6,7 @@ module Api
     # GET /exercises
     def index
       @exercises = Exercise.all
-      list = @exercises.map{ |record| {exercise: record, muscles: record.exercise_muscles.map{ |exercise_muscle| exercise_muscle.muscle.name } } }
+      list = @exercises.map{ |record| {exercise: record, muscles: record.exercise_muscles } }
       render json: list, status: :ok
     end
 
