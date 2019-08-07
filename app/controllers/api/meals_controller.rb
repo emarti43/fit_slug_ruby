@@ -11,7 +11,7 @@ module Api
 
     # GET /meals/fields
     def fields
-      render json: Meal.column_names - ["id"], status: :ok
+      render json: Meal.column_names - ["id", "created_at", "updated_at"], status: :ok
     end
 
     # POST /meals
@@ -36,7 +36,7 @@ module Api
     # DELETE /meals/1
     def destroy
       @meal.destroy
-      render json {}, status: :ok
+      render json: {}, status: :ok
     end
 
     private
