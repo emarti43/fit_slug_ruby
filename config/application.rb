@@ -19,7 +19,7 @@ module FitSlug
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'localhost:8080', 'localhost:3000'
-        resource '*', headers: :any, methods: [:get, :post, :options]
+        resource '*', headers: :any, methods: [:get, :post, :delete, :put, :options]
       end
     end
   end
