@@ -60,6 +60,10 @@ users = User.create!([
 
 exercise_records = ExerciseRecord.create!([
   {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
+  {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
+  {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
+  {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
+  {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
   {user_id: 1, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5},
   {user_id: 2, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5},
   ])

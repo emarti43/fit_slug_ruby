@@ -29,6 +29,11 @@ module Api
     # PATCH/PUT /exercises/1
     def update
       if @exercise.update(exercise_params)
+        @exercise.exercise_muscles.destroy_all
+        params[:exercise][:muscles].each do |muscle_id|
+          @exercise_muscle = @exercise.exercise_muscles.create(m_id: muscle_id)
+        render json @exercise_muscle.errors, status: :unprocessable_entity and return unless @exercise_muscle.save
+        end
         render json: {}, status: :ok
       else
         render json: @exercise.errors, status: :unprocessable_entity
