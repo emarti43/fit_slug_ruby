@@ -19,9 +19,8 @@ module Api
     def create
       @exercise_record = @user.exercise_records.new(exercise_record_params)
       if @exercise_record.save
-        render json: {messsage: 'created successfully'}, status: :created
+        render json: { messsage: 'created successfully' }, status: :created
       else
-        puts @exercise_record.errors.messages
         render json: @exercise_record.errors, status: :unprocessable_entity
       end
     end

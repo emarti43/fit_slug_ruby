@@ -20,7 +20,7 @@ module Api
       if @meal.save
         render json: {message: "created meal"}, status: :created and return
       else
-        render json: @exercise.errors, status: :unprocessable_entity and return
+        render json: @meal.errors, status: :unprocessable_entity and return
       end
     end
 

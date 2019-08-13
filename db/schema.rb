@@ -10,21 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_190555) do
+ActiveRecord::Schema.define(version: 2019_08_13_015342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "exercise_muscles", force: :cascade do |t|
-    t.integer "e_id"
-    t.integer "m_id"
+    t.integer "e_id", null: false
+    t.integer "m_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "exercise_records", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "exercise_id"
+    t.integer "user_id", null: false
+    t.integer "exercise_id", null: false
     t.integer "num_reps"
     t.integer "weight"
     t.integer "num_sets"
@@ -33,14 +33,14 @@ ActiveRecord::Schema.define(version: 2019_07_23_190555) do
   end
 
   create_table "exercises", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "meal_records", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "meal_id"
+    t.integer "user_id", null: false
+    t.integer "meal_id", null: false
     t.integer "num_servings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -48,19 +48,19 @@ ActiveRecord::Schema.define(version: 2019_07_23_190555) do
 
   create_table "meals", force: :cascade do |t|
     t.string "name"
-    t.string "serving_size"
-    t.integer "kcal"
-    t.integer "total_fat"
+    t.string "serving_size", null: false
+    t.integer "kcal", null: false
+    t.integer "total_fat", null: false
     t.integer "sat_fat"
     t.integer "polyun_fat"
     t.integer "monoun_fat"
     t.integer "cholesterol"
     t.integer "sodium"
     t.integer "potassium"
-    t.integer "total_carb"
+    t.integer "total_carb", null: false
     t.integer "fiber"
     t.integer "sugar"
-    t.integer "protein"
+    t.integer "protein", null: false
     t.integer "vitamin_a"
     t.integer "calcium"
     t.integer "vitamin_d"

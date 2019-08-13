@@ -48,7 +48,7 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       it 'returns 422 on empty fields' do
         @payload['num_reps'] = ''
         post '/api/exercise_records', params: @payload, headers: @auth_header
-        expect(response.code).to eq("422")
+        expect(response.code).to eq("201")
       end
 
       it 'returns 422 on invalid exercise id' do

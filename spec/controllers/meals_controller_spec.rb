@@ -23,15 +23,16 @@ RSpec.describe Api::MealsController, type: :request do
   end
   describe 'POST #create' do
     context 'with credentials' do
-      it 'not save with empty fields' do
+      it 'not save with empty protein field' do
         post '/api/meals',
-          params: {meal: {
-            name: "Spam Fried Rice",
-            kcal: 300,
-            total_fat: 10,
-            total_carb: 34,
-            protein: 15
-            }},
+          params: {
+            meal: {
+              name: "Spam Fried Rice",
+              kcal: 300,
+              total_fat: 10,
+              total_carb: 34,
+              }
+            },
           headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
         expect(response.code).to eq("422")
       end
