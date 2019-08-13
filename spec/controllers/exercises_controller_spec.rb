@@ -2,14 +2,31 @@ require 'rails_helper'
 RSpec.describe Api::ExercisesController, type: :request do
   before(:each) do
     host! 'localhost:3000'
+    @valid_auth_header = { Authorization: JsonWebToken.encode(user_id: 1) }
+    @invalid_auth_header = { Authorization: JsonWebToken.encode(user_id: -1) }
+    @valid_payload = {
+      exercise:
+      {
+        name: "Lateral Raise",
+        muscles: [3, 2, 5]
+      }
+    }
+    @invalid_payload = {
+      exercise:
+      {
+        name: "",
+        muscles: [2, 3]
+      }
+    }
   end
   describe 'GET #index' do
     context 'with credentials' do
-      user_id = 1
       it 'returns ok for valid user id' do
-        get '/api/exercises', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
+        get '/api/exercises',
+          params: nil,
+          headers: @valid_auth_header
         expect(response.code).to eq("200")
-        workout_muscles = JSON.parse(response.body).all? {|entry| entry['muscles'].nil? == false && !entry['muscles'].empty?}
+        workout_muscles = JSON.parse(response.body).all? { |entry| entry['muscles'].nil? == false && !entry['muscles'].empty? }
         expect(workout_muscles).to be_truthy
       end
     end
@@ -19,10 +36,9 @@ RSpec.describe Api::ExercisesController, type: :request do
         expect(response.code).to eq("200")
       end
       it 'returns ok with invalid' do
-        user_id = 4 #there's only 2 user records
         get '/api/exercises',
           params: nil,
-          headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
+          headers: { Authorization: JsonWebToken.encode(user_id: 4) }
         expect(response.code).to eq("200")
       end
     end
@@ -30,31 +46,17 @@ RSpec.describe Api::ExercisesController, type: :request do
   describe 'POST #create' do
     context 'with credentials' do
       it 'should save record with muscles' do
-        payload = {
-          exercise:
-          {
-            name: "Lateral Raise",
-            muscles: [3, 2, 5]
-          }
-        }
         post '/api/exercises',
-          params: payload,
-          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+          params: @valid_payload,
+          headers: @valid_auth_header
         expect(response.code).to eq("201")
       end
     end
     context 'with credentials' do
       it 'return 422 with empty name' do
-        payload = {
-          exercise:
-          {
-            name: "",
-            muscles: [2, 3]
-          }
-        }
         post '/api/exercises',
-          params: payload,
-          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+          params: @invalid_payload,
+          headers: @valid_auth_header
         expect(response.code).to eq("422")
       end
     end
@@ -62,16 +64,9 @@ RSpec.describe Api::ExercisesController, type: :request do
   describe 'POST #update' do
     context 'with credentials' do
       it 'should update record with muscles' do
-        payload = {
-          exercise:
-          {
-            name: "Lateral Raise",
-            muscles: [3, 2, 5]
-          }
-        }
         put '/api/exercises/' + 1.to_s,
-          params: payload,
-          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+          params: @valid_payload,
+          headers: @valid_auth_header
         expect(response.code).to eq("200")
       end
     end
