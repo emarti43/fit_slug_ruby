@@ -1,11 +1,14 @@
 require 'rails_helper'
 RSpec.describe Api::ExerciseRecordsController, type: :request do
-  before(:each) { host! 'localhost:3000'}
+  before(:each) do
+    host! 'localhost:3000'
+    @auth_header = {Authorization: JsonWebToken.encode(user_id: 1)}
+  end
   describe 'GET #index' do
     context 'with valid credentials' do
       user_id = 1
       it 'returns records that belong to user' do
-        get '/api/exercise_records.json', params: nil, headers: {'Authorization' => JsonWebToken.encode(user_id: user_id)}
+        get '/api/exercise_records.json', params: nil, headers: @auth_header
         records = JSON.parse(response.body)
         result = records.all? { |record|  !record.empty?}
         expect(result).to be true
@@ -25,24 +28,35 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
   end
   describe 'POST #exercise_records' do
     context 'with valid credentials' do
-      user_id = 1
       exercise_id = 1
+      before(:example) do
+        @payload = {
+          exercise_record: {
+            exercise_id: exercise_id,
+            num_reps: 12,
+            weight: 20,
+            num_sets: 3
+            }
+          }
+      end
+
       it 'posts a meal record to corresponding user' do
-        post '/api/exercise_records', params: {exercise_record: {exercise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        post '/api/exercise_records', params: @payload, headers: @auth_header
         expect(response.code).to eq("201")
       end
-    end
-    context 'with invalid credentials' do
-      user_id = -1
-      exercise_id = 1
-      it 'does not post when request has no auth' do
-        post '/api/exercise_records', params: {exercise_record: { exercise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}
-        expect(response.code).to eq("401")
+
+      it 'returns 422 on empty fields' do
+        @payload['num_reps'] = ''
+        post '/api/exercise_records', params: @payload, headers: @auth_header
+        expect(response.code).to eq("422")
       end
-      it 'does not post when request has invalid id' do
-        post '/api/exercise_records', params: {exercise_record: { exercise_id: exercise_id, num_reps: 12, weight: 20, num_sets: 3}}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
-        expect(response.code).to eq("401")
+
+      it 'returns 422 on invalid exercise id' do
+        @payload['exercise_id'] = 0
+        post '/api/exercise_records', params: {exercise_record: @payload}, headers: @auth_header
+        expect(response.code).to eq("422")
       end
+
     end
   end
 
@@ -55,7 +69,7 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
     end
     context 'with invalid credentials' do
       it 'should not update when record does not belong to user' do
-        put '/api/exercise_records/' + 3.to_s, params: {exercise_record: {num_reps: 6}}, headers: {Authorization: JsonWebToken.encode(user_id: 1)}
+        put '/api/exercise_records/' + 1.to_s, params: {exercise_record: {num_reps: 6}}, headers: {Authorization: JsonWebToken.encode(user_id: 2)}
         expect(response.code).to eq("401")
       end
     end

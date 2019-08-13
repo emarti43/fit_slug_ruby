@@ -20,7 +20,7 @@ module Api
             render json: @exercise_muscle.errors, status: :unprocessable_entity and return
           end
         end
-        render json: {message: "created exercise"}, status: :created and return
+        render json: {exercise: @exercise, muscles: @exercise.exercise_muscles.map{ |exercise_muscles| exercise_muscles.muscle }}, status: :created and return
       else
         render json: @exercise.errors, status: :unprocessable_entity and return
       end

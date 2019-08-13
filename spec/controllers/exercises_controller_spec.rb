@@ -1,6 +1,8 @@
 require 'rails_helper'
 RSpec.describe Api::ExercisesController, type: :request do
-  before(:each) { host! 'localhost:3000'}
+  before(:each) do
+    host! 'localhost:3000'
+  end
   describe 'GET #index' do
     context 'with credentials' do
       user_id = 1
@@ -39,6 +41,21 @@ RSpec.describe Api::ExercisesController, type: :request do
           params: payload,
           headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
         expect(response.code).to eq("201")
+      end
+    end
+    context 'with credentials' do
+      it 'return 422 with empty name' do
+        payload = {
+          exercise:
+          {
+            name: "",
+            muscles: [2, 3]
+          }
+        }
+        post '/api/exercises',
+          params: payload,
+          headers: {'Authorization'=> JsonWebToken.encode(user_id: 1)}
+        expect(response.code).to eq("422")
       end
     end
   end

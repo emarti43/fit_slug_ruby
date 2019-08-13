@@ -28,9 +28,20 @@ RSpec.describe Api::MealRecordsController, type: :request do
     context 'with valid credentials' do
       user_id = 1
       meal_id = 1
+      auth_header = JsonWebToken.encode(user_id: user_id)
       it 'posts a meal record to corresponding user' do
-        post '/api/meal_records', params: {meal_record: { meal_id: meal_id, num_servings: 2 }}, headers: {Authorization: JsonWebToken.encode(user_id: user_id)}
+        post '/api/meal_records', params: {meal_record: { meal_id: meal_id, num_servings: 2 }}, headers: {Authorization: auth_header}
         expect(response.code).to eq("201")
+      end
+      it 'returns 422 with empty num_servings' do
+        params = {
+          meal_record: {
+            meal_id: meal_id,
+            num_servings: ''
+            }
+          }
+          post '/api/meal_records', params: params, headers: {Authorization: auth_header}
+          expect(response.code).to eq("422")
       end
     end
     context 'with invalid credentials' do
