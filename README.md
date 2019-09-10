@@ -1,5 +1,5 @@
 # README
 
-Starting up theserver:
+Starting up the server:
 * run the migrations: `rake db:migrate`
 * run the server: `rails s`
