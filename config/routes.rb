@@ -9,10 +9,11 @@ Rails.application.routes.draw do
     resources :exercise_records, only: [:index, :update, :create, :destroy]
     resources :meal_records, only: [:index, :update, :create, :destroy]
 
-    post '/login',  to:'sessions#create'
-    delete '/logout', to:'sessions#destroy'
-    get '/validate', to:'sessions#validate'
-    post '/signup', to:'sessions#signup'
+    post '/login',  to: 'sessions#create'
+    delete '/logout', to: 'sessions#destroy'
+    get '/validate', to: 'sessions#validate'
+    post '/signup', to: 'sessions#signup'
+    get '/recent_meals', to: 'meal_records#recent_meals'
   end
   root 'application#hello'
 end

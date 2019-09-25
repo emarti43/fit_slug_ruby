@@ -7,10 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 meals = Meal.create!([
   {
-    name: "Chicken Tikka Masala", serving_size: "2 cups", kcal: 707,
-    total_fat: 43, sat_fat: 24, polyun_fat: 0, monoun_fat: 0, cholesterol: 333,
-    sodium: 4144, potassium: 1496, total_carb: 19, fiber: 4, sugar: 11,
-    protein: 66, vitamin_a: 64, calcium: 0, vitamin_d: 0, vitamin_c: 26,
+    name: "Chicken Tikka Masala", serving_size: "1 cup", kcal: 335,
+    total_fat: 22, sat_fat: 12, polyun_fat: 0, monoun_fat: 0, cholesterol: 333,
+    sodium: 2072, potassium: 1496, total_carb: 9, fiber: 4, sugar: 11,
+    protein: 33, vitamin_a: 64, calcium: 0, vitamin_d: 0, vitamin_c: 26,
     iron: 26, magnesium: 0, cobalamin: 0, vitamin_b6: 0
   },
   {
@@ -84,5 +84,4 @@ exercise_muscles = ExerciseMuscle.create!([
   {e_id: 4, m_id: 8},
   {e_id: 5, m_id: 12},
   {e_id: 5, m_id: 5}
-
   ])
