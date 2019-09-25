@@ -19,6 +19,7 @@ RSpec.describe Api::ExercisesController, type: :request do
       }
     }
   end
+
   describe 'GET #index' do
     context 'with credentials' do
       it 'returns ok for valid user id' do
@@ -30,6 +31,7 @@ RSpec.describe Api::ExercisesController, type: :request do
         expect(workout_muscles).to be_truthy
       end
     end
+
     context 'invalid credentials' do
       it 'returns ok if header not provided' do
         get '/api/exercises'
@@ -43,6 +45,7 @@ RSpec.describe Api::ExercisesController, type: :request do
       end
     end
   end
+  
   describe 'POST #create' do
     context 'with credentials' do
       it 'should save record with muscles' do

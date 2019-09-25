@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get '/validate', to: 'sessions#validate'
     post '/signup', to: 'sessions#signup'
     get '/recent_meals', to: 'meal_records#recent_meals'
+    get '/recent_exercises', to: 'exercise_records#recent_exercises'
+    
   end
   root 'application#hello'
 end

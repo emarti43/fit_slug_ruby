@@ -1,13 +1,25 @@
 module Api
   class ExerciseRecordsController < ApplicationController
     before_action :set_exercise_record, only: [:show, :edit, :update, :destroy]
-    before_action :authorize, only: [:index, :create, :destroy, :update]
+    before_action :authorize, only: [:index, :create, :destroy, :update, :recent_exercises]
 
     # GET /exercise_records
     # GET /exercise_records.json
     def index
       @exercise_records = @user.exercise_records
-      render json: @exercise_records.map{ |record| {
+      render json: @exercise_records.map{ |record|
+        {
+        exercise: record.exercise,
+        muscles: record.exercise.exercise_muscles.map{|e_muscle|  e_muscle.muscle },
+        exercise_record: record
+        }
+      }, status: :ok
+    end
+
+    def recent_exercises
+      daily_exercises = @user.exercise_records.select{ |record| record.created_at > Time.zone.now.beginning_of_day }
+      render json: daily_exercises.map{ |record|
+        {
         exercise: record.exercise,
         muscles: record.exercise.exercise_muscles.map{|e_muscle|  e_muscle.muscle },
         exercise_record: record

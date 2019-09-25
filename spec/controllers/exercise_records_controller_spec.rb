@@ -12,7 +12,7 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
   end
   describe 'GET #index' do
     context 'with valid credentials' do
-      it 'returns records that belong to user' do
+      it 'returns all records from user' do
         get '/api/exercise_records.json',
           params: nil,
           headers: @valid_auth_header
@@ -34,6 +34,19 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
       end
     end
   end
+
+  describe 'GET #recent_exercises' do
+    context 'user is logged in' do
+      it 'returns records from the current day' do
+        get '/api/recent_exercises',
+          headers: @valid_auth_header
+          records = JSON.parse(response.body)
+          expect(response.code).to eq("200")
+          expect(records.all? { |record| Time.zone.parse(record["exercise_record"]["created_at"]) > Time.zone.now.beginning_of_day })
+      end
+    end
+  end
+
   describe 'POST #exercise_records' do
     context 'with valid credentials' do
       exercise_id = 1
@@ -48,7 +61,7 @@ RSpec.describe Api::ExerciseRecordsController, type: :request do
           }
       end
 
-      it 'posts a meal record to corresponding user' do
+      it 'posts an exercise record to corresponding user' do
         post '/api/exercise_records',
           params: @payload,
           headers: @valid_auth_header
