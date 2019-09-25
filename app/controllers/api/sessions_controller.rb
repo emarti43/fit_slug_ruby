@@ -23,7 +23,7 @@ module Api
         exp_time = Time.now + 24.hours.to_i
         render json: {token: token, exp: exp_time.strftime('%m-%d-%Y %H:%M'), username: @user.name}, status: :ok
       else
-        render json: [], status: :bad_request, text: "invalid credentials"
+        render json: { message: "invalid credentials" }, status: :bad_request, text: "invalid credentials"
       end
     end
 

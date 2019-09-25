@@ -1,22 +1,17 @@
 module Api
   class MealRecordsController < ApplicationController
     before_action :set_meal_record, only: [:show, :edit, :update, :destroy]
-    before_action :authorize, only: [:index, :create, :destroy, :update]
+    before_action :authorize, only: [:index, :create, :destroy, :update, :recent_meals]
 
     # GET /meal_records
     # GET /meal_records.json
     def index
-      # @meal_records = @user.meal_records
-      meal_records = @user.meal_records
-      mapping = meal_records.map do |meal_record|
-        {
-          id: meal_record.id,
-          user_id: meal_record.user_id,
-          num_servings: meal_record.num_servings,
-          meal: meal_record.meal
-        }
-      end
-      render json: mapping, status: :ok
+      render json: @user.meal_records, include: :meal, status: :ok
+    end
+
+    def recent_meals
+      daily_meals = @user.meal_records.select{ |meal_record| meal_record.created_at > Time.zone.now.beginning_of_day }
+      render json: daily_meals, include: :meal, status: :ok
     end
 
     # POST /meal_records

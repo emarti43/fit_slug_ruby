@@ -48,6 +48,18 @@ RSpec.describe Api::MealRecordsController, type: :request do
     end
   end
 
+  describe 'GET #recent_meals' do
+    context 'valid credentials' do
+      it 'return meal_records only from this day' do
+        get '/api/recent_meals',
+          headers: @valid_auth_header
+        records = JSON.parse(response.body)
+        expect(response.code).to eq("200")
+        expect(records.all? { |record| Time.zone.parse(record["created_at"]) > Time.zone.now.beginning_of_day })
+      end
+    end
+  end
+
   describe 'POST #meal_records' do
     context 'with valid credentials' do
       it 'posts a meal record to corresponding user' do
