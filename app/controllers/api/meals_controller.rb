@@ -18,7 +18,7 @@ module Api
     def create
       @meal = Meal.new(meal_params)
       if @meal.save
-        render json: {message: "created meal"}, status: :created and return
+        render json: {message: "created meal", meal: @meal}, status: :created and return
       else
         render json: @meal.errors, status: :unprocessable_entity and return
       end
