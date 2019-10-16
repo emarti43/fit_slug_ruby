@@ -35,7 +35,7 @@ module Api
 
     # DELETE /meals/1
     def destroy
-      @meal.destroy_all
+      @meal.destroy
       render json: {}, status: :ok
     end
 

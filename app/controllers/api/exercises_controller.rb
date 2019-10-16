@@ -42,7 +42,7 @@ module Api
 
     # DELETE /exercises/1
     def destroy
-      @exercise.destroy_all
+      @exercise.destroy
       render json: {}, status: :ok
     end
 
