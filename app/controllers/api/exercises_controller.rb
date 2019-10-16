@@ -15,7 +15,7 @@ module Api
       @exercise = Exercise.new(exercise_params)
       if @exercise.save
         params[:exercise][:muscles].each do |muscle_id|
-          @exercise_muscle = @exercise.exercise_muscles.new(m_id: muscle_id)
+          @exercise_muscle = @exercise.exercise_muscles.new(muscle_id: muscle_id)
           if !@exercise_muscle.save
             render json: @exercise_muscle.errors, status: :unprocessable_entity and return
           end
@@ -31,7 +31,7 @@ module Api
       if @exercise.update(exercise_params)
         @exercise.exercise_muscles.destroy_all
         params[:exercise][:muscles].each do |muscle_id|
-          @exercise_muscle = @exercise.exercise_muscles.create(m_id: muscle_id)
+          @exercise_muscle = @exercise.exercise_muscles.create(muscle_id: muscle_id)
         render json @exercise_muscle.errors, status: :unprocessable_entity and return unless @exercise_muscle.save
         end
         render json: {}, status: :ok
