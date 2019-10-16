@@ -34,7 +34,7 @@ module Api
           @exercise_muscle = @exercise.exercise_muscles.create(muscle_id: muscle_id)
         render json @exercise_muscle.errors, status: :unprocessable_entity and return unless @exercise_muscle.save
         end
-        render json: {}, status: :ok
+        render json: {exercise: @exercise, muscles: @exercise.exercise_muscles.map{ |exercise_muscles| exercise_muscles.muscle }}, status: :ok and return
       else
         render json: @exercise.errors, status: :unprocessable_entity
       end
