@@ -17,7 +17,7 @@ class ExerciseMusclesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create exercise_muscle" do
     assert_difference('ExerciseMuscle.count') do
-      post exercise_muscles_url, params: { exercise_muscle: { e_id: @exercise_muscle.e_id, m_id: @exercise_muscle.m_id } }
+      post exercise_muscles_url, params: { exercise_muscle: { exercise_id: @exercise_muscle.exercise_id, m_id: @exercise_muscle.muscle_id } }
     end
 
     assert_redirected_to exercise_muscle_url(ExerciseMuscle.last)
@@ -34,7 +34,7 @@ class ExerciseMusclesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update exercise_muscle" do
-    patch exercise_muscle_url(@exercise_muscle), params: { exercise_muscle: { e_id: @exercise_muscle.e_id, m_id: @exercise_muscle.m_id } }
+    patch exercise_muscle_url(@exercise_muscle), params: { exercise_muscle: { exercise_id: @exercise_muscle.exercise_id, m_id: @exercise_muscle.muscle_id } }
     assert_redirected_to exercise_muscle_url(@exercise_muscle)
   end
 

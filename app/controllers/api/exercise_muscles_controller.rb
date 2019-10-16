@@ -44,7 +44,7 @@ module Api
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exercise_muscle_params
-      params.require(:exercise_muscle).permit(:e_id, :m_id)
+      params.require(:exercise_muscle).permit(:exercise_id, :muscle_id)
     end
   end
 end

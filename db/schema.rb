@@ -10,57 +10,63 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_13_015342) do
+ActiveRecord::Schema.define(version: 2019_07_23_190555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "exercise_muscles", force: :cascade do |t|
-    t.integer "e_id", null: false
-    t.integer "m_id", null: false
+    t.bigint "exercise_id"
+    t.bigint "muscle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_exercise_muscles_on_exercise_id"
+    t.index ["muscle_id"], name: "index_exercise_muscles_on_muscle_id"
   end
 
   create_table "exercise_records", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "exercise_id", null: false
+    t.bigint "user_id"
+    t.bigint "exercise_id"
     t.integer "num_reps"
     t.integer "weight"
     t.integer "num_sets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_exercise_records_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_records_on_user_id"
   end
 
   create_table "exercises", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "meal_records", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "meal_id", null: false
+    t.bigint "user_id"
+    t.bigint "meal_id"
     t.integer "num_servings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["meal_id"], name: "index_meal_records_on_meal_id"
+    t.index ["user_id"], name: "index_meal_records_on_user_id"
   end
 
   create_table "meals", force: :cascade do |t|
     t.string "name"
-    t.string "serving_size", null: false
-    t.integer "kcal", null: false
-    t.integer "total_fat", null: false
+    t.string "serving_size"
+    t.integer "kcal"
+    t.integer "total_fat"
     t.integer "sat_fat"
     t.integer "polyun_fat"
     t.integer "monoun_fat"
     t.integer "cholesterol"
     t.integer "sodium"
     t.integer "potassium"
-    t.integer "total_carb", null: false
+    t.integer "total_carb"
     t.integer "fiber"
     t.integer "sugar"
-    t.integer "protein", null: false
+    t.integer "protein"
     t.integer "vitamin_a"
     t.integer "calcium"
     t.integer "vitamin_d"

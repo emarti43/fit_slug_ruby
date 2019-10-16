@@ -14,8 +14,8 @@ class ExerciseMusclesTest < ApplicationSystemTestCase
     visit exercise_muscles_url
     click_on "New Exercise Muscle"
 
-    fill_in "E", with: @exercise_muscle.e_id
-    fill_in "M", with: @exercise_muscle.m_id
+    fill_in "E", with: @exercise_muscle.exercise_id
+    fill_in "M", with: @exercise_muscle.muscle_id
     click_on "Create Exercise muscle"
 
     assert_text "Exercise muscle was successfully created"
@@ -26,8 +26,8 @@ class ExerciseMusclesTest < ApplicationSystemTestCase
     visit exercise_muscles_url
     click_on "Edit", match: :first
 
-    fill_in "E", with: @exercise_muscle.e_id
-    fill_in "M", with: @exercise_muscle.m_id
+    fill_in "E", with: @exercise_muscle.exercise_id
+    fill_in "M", with: @exercise_muscle.muscle_id
     click_on "Update Exercise muscle"
 
     assert_text "Exercise muscle was successfully updated"

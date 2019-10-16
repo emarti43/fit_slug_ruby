@@ -78,15 +78,15 @@ meal_records = MealRecord.create!([
 print "---------------- Created #{MealRecord.count} Meal Records ----------------\n"
 
 exercise_muscles = ExerciseMuscle.create!([
-  {e_id: 1, m_id: 5},
-  {e_id: 2, m_id: 5},
-  {e_id: 2, m_id: 12},
-  {e_id: 2, m_id: 2},
-  {e_id: 3, m_id: 3},
-  {e_id: 3, m_id: 4},
-  {e_id: 4, m_id: 9},
-  {e_id: 4, m_id: 8},
-  {e_id: 5, m_id: 12},
-  {e_id: 5, m_id: 5}
+  {exercise_id: 1, muscle_id: 5},
+  {exercise_id: 2, muscle_id: 5},
+  {exercise_id: 2, muscle_id: 12},
+  {exercise_id: 2, muscle_id: 2},
+  {exercise_id: 3, muscle_id: 3},
+  {exercise_id: 3, muscle_id: 4},
+  {exercise_id: 4, muscle_id: 9},
+  {exercise_id: 4, muscle_id: 8},
+  {exercise_id: 5, muscle_id: 12},
+  {exercise_id: 5, muscle_id: 5}
   ])
 print "---------------- Created #{ExerciseMuscle.count} Exercise Muscles ----------------\n"
