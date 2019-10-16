@@ -21,7 +21,7 @@ meals = Meal.create!([
     iron: 26, magnesium: 0, cobalamin: 0, vitamin_b6: 0
   },
   ])
-print "--------------created #{Meal.count} meals---------\n"
+print "---------------- Created #{Meal.count} Meals----------------\n"
 
 exercises = Exercise.create!([
   {name: "Bicep Curl"},
@@ -30,7 +30,7 @@ exercises = Exercise.create!([
   {name: "Squats"},
   {name: "Barbell Rows"}
   ])
-print "--------------created #{Exercise.count} exercises---------\n"
+print "---------------- Created #{Exercise.count} Exercises----------------\n"
 
 muscles = Muscle.create!([
   {name: "Neck"},
@@ -49,7 +49,7 @@ muscles = Muscle.create!([
   {name: "Glutes (gluteus maximus and medius)"},
   {name: "Hamstrings (biceps femoris)"}
   ])
-print "--------------created #{Muscle.count} muscles---------\n"
+print "---------------- Created #{Muscle.count} Muscles ----------------\n"
 
 users = User.create!([
   {name: "Example User", email: "user@example.com", password: "foobar",
@@ -57,6 +57,7 @@ users = User.create!([
    {name: "binkobanko", email: "eggthomas@gmail.com", password: "foobar",
    password_confirmation: "foobar"}
   ])
+print "---------------- Created #{User.count} Users ----------------\n"
 
 exercise_records = ExerciseRecord.create!([
   {user_id: 1, exercise_id: Exercise.first.id, num_reps: 10, weight: 50, num_sets: 5},
@@ -67,12 +68,15 @@ exercise_records = ExerciseRecord.create!([
   {user_id: 1, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5},
   {user_id: 2, exercise_id: Exercise.first(2)[1].id, num_reps: 5, weight: 100, num_sets: 5},
   ])
+print "---------------- Created #{ExerciseRecord.count} Exercise Records ----------------\n"
 
 meal_records = MealRecord.create!([
   {user_id: 1, meal_id: 1, num_servings: 4},
   {user_id: 1, meal_id: 2, num_servings: 2},
   {user_id: 2, meal_id: 2, num_servings: 2}
   ])
+print "---------------- Created #{MealRecord.count} Meal Records ----------------\n"
+
 exercise_muscles = ExerciseMuscle.create!([
   {e_id: 1, m_id: 5},
   {e_id: 2, m_id: 5},
@@ -85,3 +89,4 @@ exercise_muscles = ExerciseMuscle.create!([
   {e_id: 5, m_id: 12},
   {e_id: 5, m_id: 5}
   ])
+print "---------------- Created #{ExerciseMuscle.count} Exercise Muscles ----------------\n"
